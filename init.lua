@@ -1060,8 +1060,10 @@ endif
 
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    branch = "master",
     build = ":TSUpdate",
-    main = "nvim-treesitter.configs", -- Sets main module to use for opts
+    -- main = "nvim-treesitter.configs", -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
@@ -1210,8 +1212,9 @@ set grepprg=internal
   },
   {
     "ray-x/go.nvim",
+    branch = "master",
     dependencies = { -- optional packages
-      "ray-x/guihua.lua",
+      -- "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
     },
