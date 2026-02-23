@@ -131,6 +131,13 @@ vim.keymap.set("n", "<leader>/", "<cmd>nohlsearch<CR>", { silent = true, desc = 
 
 vim.keymap.set("n", "z0", "zcz0", { noremap = true, silent = true, desc = "Open fold" })
 
+-- Copy relative file path to clipboard
+vim.keymap.set("n", "<leader>cp", function()
+  local path = vim.fn.fnamemodify(vim.fn.expand("%"), ":~:.")
+  vim.fn.setreg("+", path)
+  vim.notify(path, vim.log.levels.INFO, { title = "Copied path" })
+end, { desc = "[C]opy file [P]ath" })
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 -- TIP: Disable arrow keys in normal mode
