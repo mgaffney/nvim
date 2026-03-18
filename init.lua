@@ -178,6 +178,7 @@ noremap <F1> <Esc>
 nnoremap <F2> :call ToggleBg()<cr>
 nnoremap <F3> :call ToggleNumbers()<cr>
 nnoremap <F4> :ToggleWhitespace<cr>
+nnoremap <F5> :UndotreeToggle<cr>
 
 vnoremap < <gv
 vnoremap > >gv
