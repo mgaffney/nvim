@@ -96,6 +96,10 @@ vim.opt.termguicolors = true
 -- Save undo history
 vim.opt.undofile = true
 
+-- Enable per project settings
+vim.opt.exrc = true   -- load .nvim.lua / .nvimrc / .exrc from CWD
+vim.opt.secure = true -- don't run shell commands from those files
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = "a"
 
