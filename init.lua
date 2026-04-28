@@ -142,6 +142,12 @@ vim.keymap.set("n", "<leader>cp", function()
   vim.notify(path, vim.log.levels.INFO, { title = "Copied path" })
 end, { desc = "[C]opy file [P]ath" })
 
+-- generate a lowercase UUID
+vim.keymap.set('i', '<leader>uid', function()
+  local uuid = vim.fn.system('uuidgen'):gsub('%s+', ''):lower()
+  vim.api.nvim_put({ uuid }, 'c', true, true)
+end)
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 -- TIP: Disable arrow keys in normal mode
