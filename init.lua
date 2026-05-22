@@ -90,7 +90,7 @@ vim.opt.wildmenu = true                   -- show list instead of just completin
 vim.opt.wildmode = "longest,list:longest" -- tab completion like zsh's
 vim.opt.gdefault = true                   -- the /g flag on :s substitutions by default
 
-vim.opt.diffopt = "filler,vertical"
+vim.opt.diffopt = "filler,vertical,inline:word"
 vim.opt.termguicolors = true
 
 -- Save undo history
@@ -126,6 +126,12 @@ vim.opt.showmode = false
 --   and `:help lua-options-guide`
 -- vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+-- new in Neovim 0.12
+vim.opt.autocomplete = true
+vim.opt.pumborder = 'rounded'
+vim.opt.pummaxwidth = 40
+vim.opt.completeopt = 'menu,menuone,noselect'
 
 --  See `:help vim.keymap.set()`
 
@@ -344,7 +350,6 @@ require("lazy").setup({
   "idanarye/vim-merginal",
   "aymericbeaumet/vim-symlink",
   "moll/vim-bbye", -- optional dependency
-  "mbbill/undotree",
   "mileszs/ack.vim",
   {
     "junegunn/vim-easy-align",
@@ -751,7 +756,7 @@ endif
       -- See :help vim.diagnostic.Opts
       vim.diagnostic.config {
         severity_sort = true,
-        float = { border = 'rounded', source = 'if_many' },
+        float = { border = 'rounded', source = true },
         underline = { severity = vim.diagnostic.severity.ERROR },
         signs = vim.g.have_nerd_font and {
           text = {
@@ -1161,6 +1166,7 @@ let g:airline_right_alt_sep = '' " U+E0B3
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_selenized_normal_green = 0
+let g:airline#extensions#nvimlsp#enabled = 1
 if exists('$TMUX')
 	let g:airline#extensions#tmuxline#enabled = 0
 endif
