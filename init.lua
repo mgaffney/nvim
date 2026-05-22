@@ -1079,127 +1079,43 @@ endif
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
-    branch = "master",
+    branch = "main",
     build = ":TSUpdate",
     -- main = "nvim-treesitter.configs", -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = {
-        "awk",
-        "bash",
-        "c",
-        "comment",
-        "cpp",
-        "css",
-        "csv",
-        "diff",
-        "dockerfile",
-        "dot",
-        "dtd",
-        "ebnf",
-        "editorconfig",
-        "fish",
-        "fsh",
-        "func",
-        "git_config",
-        "git_rebase",
-        "gitattributes",
-        "gitcommit",
-        "gitignore",
-        "gnuplot",
-        "go",
-        "goctl",
-        "godot_resource",
-        "gomod",
-        "gosum",
-        "gotmpl",
-        "gowork",
-        "hcl",
-        "html",
-        "http",
-        "idl",
-        "ini",
-        "java",
-        "javadoc",
-        "javascript",
-        "jq",
-        "jsdoc",
-        "json",
-        "json5",
-        "jsonc",
-        "lua",
-        "luadoc",
-        "make",
-        "markdown",
-        "markdown_inline",
-        "mermaid",
-        "passwd",
-        "pem",
-        "perl",
-        "printf",
-        "properties",
-        "proto",
-        "query",
-        "readline",
-        "regex",
-        "requirements",
-        "rst",
-        "ruby",
-        "rust",
-        "scala",
-        "scheme",
-        "scss",
-        "slang",
-        "soql",
-        "sparql",
-        "sql",
-        "squirrel",
-        "ssh_config",
-        "strace",
-        "styled",
-        "swift",
-        "tablegen",
-        "tcl",
-        "teal",
-        "templ",
-        "terraform",
-        "textproto",
-        "thrift",
-        "tiger",
-        "tmux",
-        "todotxt",
-        "toml",
-        "tsv",
-        "twig",
-        "typescript",
-        "typespec",
-        "typoscript",
-        "typst",
-        "udev",
-        "ungrammar",
-        "usd",
-        "vhdl",
-        "vim",
-        "vimdoc",
-        "vue",
-        "xml",
-        "xresources",
-        "yaml",
-        "zig",
-        "ziggy",
-        "ziggy_schema",
-      },
-      -- Autoinstall languages that are not installed
       auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { "ruby" },
-      },
-      indent = { enable = true, disable = { "ruby" } },
     },
+    init = function()
+      local ensureInstalled = {
+        'awk', 'bash', 'c', 'comment', 'cpp', 'css', 'csv', 'diff', 'dockerfile', 'dot',
+        'dtd', 'ebnf', 'editorconfig', 'fish', 'fsh', 'func', 'git_config', 'git_rebase', 'gitattributes', 'gitcommit',
+        'gitignore', 'gnuplot', 'go', 'goctl', 'godot_resource', 'gomod', 'gosum', 'gotmpl', 'gowork', 'hcl',
+        'html', 'http', 'idl', 'ini', 'java', 'javadoc', 'javascript', 'jq', 'jsdoc', 'json',
+        'json5', 'lua', 'luadoc', 'make', 'markdown', 'markdown_inline', 'mermaid', 'passwd', 'pem',
+        'perl', 'printf', 'properties', 'proto', 'query', 'readline', 'regex', 'requirements', 'rst', 'ruby',
+        'rust', 'scala', 'scheme', 'scss', 'slang', 'soql', 'sparql', 'sql', 'squirrel', 'ssh_config',
+        'strace', 'styled', 'swift', 'tablegen', 'tcl', 'teal', 'templ', 'terraform', 'textproto', 'thrift',
+        'tiger', 'tmux', 'todotxt', 'toml', 'tsv', 'twig', 'typescript', 'typespec', 'typoscript', 'typst',
+        'udev', 'ungrammar', 'usd', 'vhdl', 'vim', 'vimdoc', 'vue', 'xml', 'xresources', 'yaml',
+        'zig', 'ziggy', 'ziggy_schema',
+      }
+      local alreadyInstalled = require('nvim-treesitter.config').get_installed()
+      local parsersToInstall = vim.iter(ensureInstalled)
+          :filter(function(parser)
+            return not vim.tbl_contains(alreadyInstalled, parser)
+          end)
+          :totable()
+      require('nvim-treesitter').install(parsersToInstall)
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          -- Enable treesitter highlighting and disable regex syntax
+          pcall(vim.treesitter.start)
+          -- Enable treesitter-based indentation
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
+    end,
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
