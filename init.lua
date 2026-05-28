@@ -249,6 +249,7 @@ augroup fileconfigs
 	autocmd!
 	autocmd FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 	autocmd BufNewFile,BufRead *.rfc setlocal filetype=markdown
+	autocmd BufNewFile,BufRead *.mdx setlocal filetype=markdown
 augroup END
 
 function! CopyMatches(reg)
