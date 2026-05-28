@@ -4,7 +4,7 @@
 
 " Needed for Obsidian plugin to work properly.
 " https://github.com/epwalsh/obsidian.nvim/issues/286
-setlocal conceallevel=2
+setlocal conceallevel=0
 
 setlocal tabstop=4
 setlocal shiftwidth=4
