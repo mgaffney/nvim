@@ -59,6 +59,7 @@ vim.opt.shiftround = true -- round indents to multiple of shiftwidth
 
 vim.opt.clipboard = "unnamed"
 -- vim.opt.scrolloff = 999
+vim.wo.scrolloff = 4
 
 vim.opt.background = "dark" -- Assume a dark background
 -- colorscheme selenized
@@ -74,21 +75,22 @@ vim.opt.cursorline = true     -- Highlight the line the cursor is on
 vim.opt.errorbells = false
 vim.opt.visualbell = true
 -- vim.opt.t_vb=
-vim.opt.virtualedit = "block"             -- Allow for block cursor in visual mode
-vim.opt.inccommand = "split"              -- Show live preview of substitution
+vim.opt.virtualedit = "block" -- Allow for block cursor in visual mode
+vim.opt.inccommand = "split"  -- Show live preview of substitution
 
-vim.opt.incsearch = true                  -- find as you type search
-vim.opt.hlsearch = true                   -- highlight search terms
-vim.opt.ignorecase = true                 -- case insensitive search
-vim.opt.smartcase = true                  -- case sensitive when uc present
-vim.opt.winminheight = 0                  -- windows can be 0 line high
-vim.opt.smarttab = true                   -- sw at the start of the line, sts everywhere else
+vim.opt.incsearch = true      -- find as you type search
+vim.opt.hlsearch = true       -- highlight search terms
+vim.opt.ignorecase = true     -- case insensitive search
+vim.opt.smartcase = true      -- case sensitive when uc present
+vim.opt.winminheight = 0      -- windows can be 0 line high
+vim.opt.smarttab = true       -- sw at the start of the line, sts everywhere else
 
-vim.opt.timeoutlen = 1200                 -- A little bit more time for macros
-vim.opt.ttimeoutlen = 50                  -- Make Esc work faster
-vim.opt.wildmenu = true                   -- show list instead of just completing
-vim.opt.wildmode = "longest,list:longest" -- tab completion like zsh's
-vim.opt.gdefault = true                   -- the /g flag on :s substitutions by default
+vim.opt.timeoutlen = 1200     -- A little bit more time for macros
+vim.opt.ttimeoutlen = 50      -- Make Esc work faster
+vim.opt.wildmenu = true       -- show list instead of just completing
+-- vim.opt.wildmode = "longest,list:longest" -- tab completion like zsh's
+vim.opt.wildmode = "longest:full,full"
+vim.opt.gdefault = true -- the /g flag on :s substitutions by default
 
 vim.opt.diffopt = "filler,vertical,inline:word"
 vim.opt.termguicolors = true

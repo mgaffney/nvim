@@ -1,6 +1,7 @@
-" setlocal wrap
-" setlocal linebreak
-" setlocal nolist    " list disables linebreak
+setlocal wrap
+setlocal linebreak
+setlocal nolist    " list disables linebreak
+setlocal breakindent
 
 " Needed for Obsidian plugin to work properly.
 " https://github.com/epwalsh/obsidian.nvim/issues/286
