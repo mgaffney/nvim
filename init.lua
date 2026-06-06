@@ -957,6 +957,30 @@ endif
       vim.cmd.colorscheme("selenized")
     end,
   },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    -- config = true
+         config = function()
+             require('gruvbox').setup({
+                overrides = {
+                    -- DiffText = { fg = "#58a3ff", bg = "#184956"},
+                    -- DiffTextAdd = { fg = "#84c747", bg = "#184956"}
+                    DiffText = { bg = "#49503b", fg = "#58a3ff"},
+                    DiffTextAdd = { bg = "#49503b", fg = "#84c747"}
+
+   -- DiffDelete = { bg = colors.dark_red },
+   --  DiffAdd = { bg = colors.dark_green },
+   --  DiffChange = { bg = colors.dark_aqua },
+   --  DiffText = { bg = colors.yellow, fg = colors.bg0 },
+	-- hi['DiffText']                     = { fg = colors.br_blue, bg = colors.bg_1 }
+	-- hi['DiffTextAdd']                  = { fg = colors.br_green, bg = colors.bg_1 }
+                    -- DiffText = {bg = "#ff9900"}
+                }
+             })
+         end,
+  },
 
   --[[
 	{ -- You can easily change to a different colorscheme.
