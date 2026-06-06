@@ -1092,7 +1092,6 @@ endif
   "leafgarland/typescript-vim",
   "majutsushi/tagbar",
   "numToStr/Comment.nvim",
-  "sindrets/diffview.nvim",
   "tomswartz07/vim-pg-explain-syntax",
   "tomtom/tcomment_vim",
   "uarun/vim-protobuf",
@@ -1102,6 +1101,10 @@ endif
   "zackhsi/fzf-tags",
   "zimbatm/haproxy.vim",
   "simrat39/rust-tools.nvim",
+  {
+    "dlyongemallo/diffview-plus.nvim",
+    version = "*",
+  },
   {
     "ntpeters/vim-better-whitespace",
     config = function()
