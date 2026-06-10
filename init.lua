@@ -57,7 +57,6 @@ vim.opt.shiftwidth = 2
 vim.opt.autoindent = true -- indent at the same level of the previous line
 vim.opt.shiftround = true -- round indents to multiple of shiftwidth
 
-vim.opt.clipboard = "unnamed"
 -- vim.opt.scrolloff = 999
 vim.wo.scrolloff = 4
 
@@ -275,17 +274,6 @@ au BufWritePre,FileWritePre * if @% !~# '\(://\)' | call mkdir(expand('<afile>:p
 
 let g:github_enterprise_urls = ['github.com', 'github.ibm.com']
 
-highlight NonText guifg=#4a4a59 guibg=bg
-highlight SpecialKey guifg=#4a4a59 guibg=bg
-highlight Folded cterm=none gui=none
-highlight FloatBorder guifg=#073642 guibg=#073642
-highlight goSameId gui=reverse guifg=#268bd2
-
-highlight SpellBad term=underline cterm=underline
-highlight SpellCap term=underline cterm=underline
-highlight SpellRare term=underline cterm=underline
-highlight SpellLocal term=underline cterm=underline
-
 ]])
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
@@ -350,22 +338,20 @@ require("lazy").setup({
   "junegunn/goyo.vim",
   "junegunn/limelight.vim",
   "github/copilot.vim",
-  "airblade/vim-gitgutter",
   "idanarye/vim-merginal",
   "aymericbeaumet/vim-symlink",
   "moll/vim-bbye", -- optional dependency
-  "mileszs/ack.vim",
   {
     "junegunn/vim-easy-align",
     keys = {
-      { "yga", "<Plug>(EasyAlign)", { noremap = false, silent = true, desc = "Align [a]round" } },
-      { "ga",  "<Plug>(EasyAlign)", mode = "x",                                                 { noremap = false, silent = true, desc = "Align [a]round" } },
+      { "yga", "<Plug>(EasyAlign)", silent = true, desc = "Align [a]round" },
+      { "ga",  "<Plug>(EasyAlign)", mode = "x",    silent = true,          desc = "Align [a]round" },
     },
   },
   "junegunn/fzf",
   {
     "junegunn/fzf.vim",
-    requires = { "junegunn/fzf" },
+    dependencies = { "junegunn/fzf" },
     keys = {
       -- { "<leader>ff",  ":Files<CR>",     { noremap = true, silent = true, desc = "[f]ind [f]iles" } },
       -- { "<leader>fg",  ":GFiles<CR>",    { noremap = true, silent = true, desc = "[f]ind [g]it files" } },
@@ -375,13 +361,13 @@ require("lazy").setup({
       -- { "<leader>fs",  ":Rg<CR>",        { noremap = true, silent = true, desc = "[f]ind [s]earch" } },
       -- { "<leader>ft",  ":BTags<CR>",     { noremap = true, silent = true, desc = "[f]ind [t]ags" } },
       -- { "<leader>fm",  ":Marks<CR>",     { noremap = true, silent = true, desc = "[f]ind [m]arks" } },
-      { "<leader>fH",  ":History<CR>",  { noremap = true, silent = true, desc = "[f]ind [H]istory" } },
+      { "<leader>fH",  ":History<CR>",  silent = true, desc = "[f]ind [H]istory" },
       -- { "<leader>f:",  ":History:<CR>",  { noremap = true, silent = true, desc = "[f]ind [:]History" } },
       -- { "<leader>f/",  ":History/<CR>",  { noremap = true, silent = true, desc = "[f]ind [/]History" } },
       -- { "<leader>fm",  ":Maps<CR>",      { noremap = true, silent = true, desc = "[f]ind [m]aps" } },
       -- { "<leader>fc",  ":Commands<CR>",  { noremap = true, silent = true, desc = "[f]ind [c]ommands" } },
-      { "<leader>fgc", ":Commits<CR>",  { noremap = true, silent = true, desc = "[f]ind [g]it [c]ommits" } },
-      { "<leader>fgb", ":BCommits<CR>", { noremap = true, silent = true, desc = "[f]ind [g]it [b]uffer commits" } },
+      { "<leader>fgc", ":Commits<CR>",  silent = true, desc = "[f]ind [g]it [c]ommits" },
+      { "<leader>fgb", ":BCommits<CR>", silent = true, desc = "[f]ind [g]it [b]uffer commits" },
       -- { "<leader>fw", ":Windows<CR>", { noremap = true, silent = true, desc = "[W]indows" } },
       -- { "<leader>fq", ":Quickfix<CR>", { noremap = true, silent = true, desc = "[Q]uickfix" } },
       -- { "<leader>fl", ":Locate<CR>", { noremap = true, silent = true, desc = "[L]ocate" } },
@@ -403,23 +389,26 @@ require("lazy").setup({
     "tpope/vim-fugitive",
     lazy = false,
     keys = {
-      { "gst",         ":vertical :G<CR>",     { noremap = true, silent = true, desc = "Open [G]it [ST]atus" } },
-      { "<leader>gb",  ":G blame<CR>",         { noremap = true, silent = true, desc = "Open [G]it [B]lame" } },
-      { "<leader>gll", ":vertical :G log<CR>", { noremap = true, silent = true, desc = "Open [G]it [LL]og" } },
+      { "gst",         ":vertical :G<CR>",     silent = true, desc = "Open [G]it [ST]atus" },
+      { "<leader>gb",  ":G blame<CR>",         silent = true, desc = "Open [G]it [B]lame" },
+      { "<leader>gll", ":vertical :G log<CR>", silent = true, desc = "Open [G]it [LL]og" },
       {
         "<leader>glf",
         ":vertical :G log --name-only<CR>",
-        { noremap = true, silent = true, desc = "Open [G]it [L]og show [F]iles" },
+        silent = true,
+        desc = "Open [G]it [L]og show [F]iles",
       },
       {
         "<leader>glm",
         ":vertical :G log --author='Michael Gaffney'<CR>",
-        { noremap = true, silent = true, desc = "Open [G]it [L]og [M]e" },
+        silent = true,
+        desc = "Open [G]it [L]og [M]e",
       },
       {
         "<leader>glt",
         ":vertical :G log --author='Messier'<CR>",
-        { noremap = true, silent = true, desc = "Open [G]it [L]og [T]im" },
+        silent = true,
+        desc = "Open [G]it [L]og [T]im",
       },
     },
   },
@@ -952,6 +941,7 @@ endif
 
   {
     "mgaffney/selenized.nvim",
+    dev = true,
     priority = 1000,
     init = function()
       vim.cmd.colorscheme("selenized")
@@ -1069,39 +1059,31 @@ endif
   --     }
   --   end,
   -- },
-  {
-    "vim-airline/vim-airline",
-  },
-  {
-    "vim-airline/vim-airline-themes",
-    requires = { "vim-airline/vim-airline" },
-    config = function()
-      vim.cmd([[
-if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
-endif
-let g:airline_powerline_fonts=1
-let g:airline#extensions#hunks#enabled = 1
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#bufferline#enabled = 0
-let g:airline#extensions#whitespace#enabled = 0
-let g:airline#extensions#wordcount#enabled = 1
-let g:airline#extensions#obsession#indicator_text = '' " U+F130 (microphone)
-let g:airline_symbols.notexists = ' ' "thinspace U+F059 (Question mark - as in 'where is it')
-let g:airline_symbols.dirty = ' ' "thinspace + storm cloud
-let g:airline_left_sep = '' " U+E0B0
-let g:airline_right_sep = '' " U+E0B2
-let g:airline_right_alt_sep = '' " U+E0B3
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_selenized_normal_green = 0
-let g:airline#extensions#nvimlsp#enabled = 1
-if exists('$TMUX')
-	let g:airline#extensions#tmuxline#enabled = 0
-endif
-
-]])
-    end,
+  { -- Statusline (uses the selenized theme shipped in selenized.nvim)
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      options = {
+        theme = "selenized",
+        section_separators = { left = "\u{e0b0}", right = "\u{e0b2}" },
+        component_separators = { left = "\u{e0b1}", right = "\u{e0b3}" },
+      },
+      sections = {
+        lualine_b = {
+          { "branch", icon = "\u{e0a0}" },
+          "diff",
+          "diagnostics",
+        },
+        lualine_x = {
+          function()
+            return vim.fn.ObsessionStatus("\u{f130}", "")
+          end,
+          "encoding",
+          "fileformat",
+          "filetype",
+        },
+      },
+    },
   },
   "aklt/plantuml-syntax",
   "cespare/vim-toml",
@@ -1115,16 +1097,13 @@ endif
   "kshenoy/vim-signature",
   "leafgarland/typescript-vim",
   "majutsushi/tagbar",
-  "numToStr/Comment.nvim",
+  { "numToStr/Comment.nvim", opts = {} },
   "tomswartz07/vim-pg-explain-syntax",
-  "tomtom/tcomment_vim",
   "uarun/vim-protobuf",
   "unblevable/quick-scope",
   "vim-scripts/camelcasemotion",
-  "yegappan/taglist",
   "zackhsi/fzf-tags",
   "zimbatm/haproxy.vim",
-  "simrat39/rust-tools.nvim",
   {
     "dlyongemallo/diffview-plus.nvim",
     version = "*",
@@ -1200,6 +1179,11 @@ set grepprg=internal
   -- In normal mode type `<space>sh` then write `lazy.nvim-plugin`
   -- you can continue same window with `<space>sr` which resumes last telescope search
 }, {
+  -- Plugins marked dev = true load from this path instead of GitHub
+  dev = {
+    path = "~/sandbox/color",
+    fallback = true, -- use the GitHub copy if the local dir is missing
+  },
   rocks = {
     enabled = false,
     root = vim.fn.stdpath("data") .. "/lazy-rocks",
