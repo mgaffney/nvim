@@ -131,6 +131,7 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- new in Neovim 0.12
 vim.opt.autocomplete = true
+vim.opt.winborder = 'rounded' -- default border for floats (LSP hover, etc.)
 vim.opt.pumborder = 'rounded'
 vim.opt.pummaxwidth = 40
 vim.opt.completeopt = 'menu,menuone,noselect'
@@ -262,7 +263,6 @@ function! CopyMatches(reg)
 endfunction
 command! -register CopyMatches call CopyMatches(<q-reg>)
 
-let g:vim_json_syntax_conceal = 0
 let g:markdown_fenced_languages = ['html', 'python',
 	\ 'bash=sh', 'go', 'json', 'javascript', 'sql', 'zsh', 'vim', 'proto']
 let g:markdown_syntax_conceal = 0
@@ -1090,7 +1090,6 @@ endif
   "chrisbra/csv.vim",
   "darfink/vim-plist",
   "ekalinin/Dockerfile.vim",
-  "elzr/vim-json",
   "embear/vim-localvimrc",
   "guns/xterm-color-table.vim",
   "hashivim/vim-terraform",

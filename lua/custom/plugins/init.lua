@@ -8,7 +8,7 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		lazy = true,
 		config = function()
-			local bg      = "#103c48"
+			local bg      = "#14404b" -- selenized bg_15: subtle block shading, also visible inside floats
 			local red     = '#fa5750'
 			local green   = '#75b938'
 			local yellow  = '#dbb32d'

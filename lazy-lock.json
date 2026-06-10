@@ -54,7 +54,6 @@
   "vim-fugitive": { "branch": "master", "commit": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0" },
   "vim-git": { "branch": "master", "commit": "485e38f29494e46a9998100e707c755d114155f1" },
   "vim-grepper": { "branch": "master", "commit": "acaaf32edaa11d82fb972d2af36b949ec3042928" },
-  "vim-json": { "branch": "master", "commit": "3727f089410e23ae113be6222e8a08dd2613ecf2" },
   "vim-localvimrc": { "branch": "main", "commit": "b249c5a6bf324b0d5e62ccacfffcd36c6a703d84" },
   "vim-markdown": { "branch": "master", "commit": "f9f845f28f4da33a7655accb22f4ad21f7d9fb66" },
   "vim-merginal": { "branch": "develop", "commit": "3dca10fd8bce10edbc2024651db4ffb6dd2d89de" },
