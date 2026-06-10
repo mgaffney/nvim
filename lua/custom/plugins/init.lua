@@ -62,7 +62,6 @@ return {
 		ft = "markdown",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			'saghen/blink.cmp',
 			"nvim-telescope/telescope.nvim",
 			"nvim-treesitter/nvim-treesitter",
 			"headlines.nvim",
