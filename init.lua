@@ -909,7 +909,6 @@ endif
 
   {
     "mgaffney/selenized.nvim",
-    dev = true,
     priority = 1000,
     init = function()
       vim.cmd.colorscheme("selenized")
