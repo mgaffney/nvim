@@ -1107,7 +1107,9 @@ set grepprg=internal
       "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-      require("go").setup()
+      require("go").setup({
+        lsp_inlay_hints = { enable = false }, -- off by default; <leader>th toggles them
+      })
     end,
     event = { "CmdlineEnter" },
     ft = { "go", "gomod" },
