@@ -234,7 +234,7 @@ let g:projectionist_heuristics = {
 
 augroup templates
 	autocmd!
-	autocmd BufNewFile *.* silent! execute '0r $HOME/.vim/templates/template.'.expand("<afile>:e")
+	autocmd BufNewFile *.* silent! execute '0r '.stdpath('config').'/templates/template.'.expand("<afile>:e")
 	autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
 augroup END
 
@@ -348,43 +348,7 @@ require("lazy").setup({
       { "ga",  "<Plug>(EasyAlign)", mode = "x",    silent = true,          desc = "Align [a]round" },
     },
   },
-  "junegunn/fzf",
-  {
-    "junegunn/fzf.vim",
-    dependencies = { "junegunn/fzf" },
-    keys = {
-      -- { "<leader>ff",  ":Files<CR>",     { noremap = true, silent = true, desc = "[f]ind [f]iles" } },
-      -- { "<leader>fg",  ":GFiles<CR>",    { noremap = true, silent = true, desc = "[f]ind [g]it files" } },
-      -- { "<leader>fb",  ":Buffers<CR>",   { noremap = true, silent = true, desc = "[f]ind [b]uffers" } },
-      -- { "<leader>fh",  ":Helptags!<CR>", { noremap = true, silent = true, desc = "[f]ind [h]elp tags" } },
-      -- { "<leader>fl",  ":Lines<CR>",     { noremap = true, silent = true, desc = "[f]ind [l]ines" } },
-      -- { "<leader>fs",  ":Rg<CR>",        { noremap = true, silent = true, desc = "[f]ind [s]earch" } },
-      -- { "<leader>ft",  ":BTags<CR>",     { noremap = true, silent = true, desc = "[f]ind [t]ags" } },
-      -- { "<leader>fm",  ":Marks<CR>",     { noremap = true, silent = true, desc = "[f]ind [m]arks" } },
-      { "<leader>fH",  ":History<CR>",  silent = true, desc = "[f]ind [H]istory" },
-      -- { "<leader>f:",  ":History:<CR>",  { noremap = true, silent = true, desc = "[f]ind [:]History" } },
-      -- { "<leader>f/",  ":History/<CR>",  { noremap = true, silent = true, desc = "[f]ind [/]History" } },
-      -- { "<leader>fm",  ":Maps<CR>",      { noremap = true, silent = true, desc = "[f]ind [m]aps" } },
-      -- { "<leader>fc",  ":Commands<CR>",  { noremap = true, silent = true, desc = "[f]ind [c]ommands" } },
-      { "<leader>fgc", ":Commits<CR>",  silent = true, desc = "[f]ind [g]it [c]ommits" },
-      { "<leader>fgb", ":BCommits<CR>", silent = true, desc = "[f]ind [g]it [b]uffer commits" },
-      -- { "<leader>fw", ":Windows<CR>", { noremap = true, silent = true, desc = "[W]indows" } },
-      -- { "<leader>fq", ":Quickfix<CR>", { noremap = true, silent = true, desc = "[Q]uickfix" } },
-      -- { "<leader>fl", ":Locate<CR>", { noremap = true, silent = true, desc = "[L]ocate" } },
-      -- { "<leader>fd", ":BDelete<CR>", { noremap = true, silent = true, desc = "[D]elete buffer" } },
-      -- { "<leader>fo", ":FZF<CR>", { noremap = true, silent = true, desc = "[O]pen FZF" } },
-    },
-    --     config = function()
-    --       vim.cmd([[
-    -- if !exists('g:fzf_vim')
-    --   let g:fzf_vim = {}
-    -- endif
-    -- let g:fzf_vim.commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(reset)· %C(cyan)%cr %C(reset)· %C(reset)%C(yellow)%an%C(reset)"'
-    --
-    -- ]])
-    --     end,
-
-  },
+  "mbbill/undotree",
   {
     "tpope/vim-fugitive",
     lazy = false,
@@ -532,6 +496,11 @@ endif
       vim.keymap.set("n", "<leader>fgf", builtin.git_files, { desc = "[F]ind [G]it [F]iles" })
       vim.keymap.set("n", "<leader>sgc", builtin.git_commits, { desc = "[F]ind [G]it [C]ommits" })
       vim.keymap.set("n", "<leader>sgb", builtin.git_bcommits, { desc = "[F]ind [G]it [B]commits" })
+
+      -- Replacements for the retired fzf.vim mappings
+      vim.keymap.set("n", "<leader>fH", builtin.oldfiles, { desc = "[F]ind [H]istory" })
+      vim.keymap.set("n", "<leader>fgc", builtin.git_commits, { desc = "[F]ind [G]it [C]ommits" })
+      vim.keymap.set("n", "<leader>fgb", builtin.git_bcommits, { desc = "[F]ind [G]it [B]uffer commits" })
 
       --  See `:help telescope.builtin.live_grep()` for information about particular keys
       vim.keymap.set("n", "<leader>fl", function()
@@ -820,7 +789,6 @@ endif
                 rangeVariableTypes = true,
               },
               analyses = {
-                fieldalignment = true,
                 nilness = true,
                 unusedparams = true,
                 unusedwrite = true,
@@ -881,19 +849,19 @@ endif
       })
       require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
+      -- Register the server configurations above with the native LSP
+      -- client (extends the defaults nvim-lspconfig ships in lsp/).
+      -- mason-lspconfig v2 then runs vim.lsp.enable() for every
+      -- installed server (automatic_enable, on by default); its old
+      -- `handlers` option is gone, so settings registered any other
+      -- way are silently ignored.
+      for server_name, config in pairs(servers) do
+        config.capabilities = vim.tbl_deep_extend("force", {}, capabilities, config.capabilities or {})
+        vim.lsp.config(server_name, config)
+      end
+
       require("mason-lspconfig").setup({
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-            require("lspconfig")[server_name].setup(server)
-          end,
-        },
       })
     end,
   },
@@ -1086,22 +1054,16 @@ endif
     },
   },
   "aklt/plantuml-syntax",
-  "cespare/vim-toml",
   "chrisbra/csv.vim",
   "darfink/vim-plist",
-  "ekalinin/Dockerfile.vim",
   "embear/vim-localvimrc",
   "guns/xterm-color-table.vim",
   "hashivim/vim-terraform",
   "kshenoy/vim-signature",
-  "leafgarland/typescript-vim",
   "majutsushi/tagbar",
-  { "numToStr/Comment.nvim", opts = {} },
   "tomswartz07/vim-pg-explain-syntax",
-  "uarun/vim-protobuf",
   "unblevable/quick-scope",
   "vim-scripts/camelcasemotion",
-  "zackhsi/fzf-tags",
   "zimbatm/haproxy.vim",
   {
     "dlyongemallo/diffview-plus.nvim",
