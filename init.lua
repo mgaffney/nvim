@@ -338,9 +338,6 @@ require("lazy").setup({
   "junegunn/goyo.vim",
   "junegunn/limelight.vim",
   "github/copilot.vim",
-  "idanarye/vim-merginal",
-  "aymericbeaumet/vim-symlink",
-  "moll/vim-bbye", -- optional dependency
   {
     "junegunn/vim-easy-align",
     keys = {
@@ -915,49 +912,6 @@ endif
     end,
   },
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-  {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    -- config = true
-         config = function()
-             require('gruvbox').setup({
-                overrides = {
-                    -- DiffText = { fg = "#58a3ff", bg = "#184956"},
-                    -- DiffTextAdd = { fg = "#84c747", bg = "#184956"}
-                    DiffText = { bg = "#49503b", fg = "#58a3ff"},
-                    DiffTextAdd = { bg = "#49503b", fg = "#84c747"}
-
-   -- DiffDelete = { bg = colors.dark_red },
-   --  DiffAdd = { bg = colors.dark_green },
-   --  DiffChange = { bg = colors.dark_aqua },
-   --  DiffText = { bg = colors.yellow, fg = colors.bg0 },
-	-- hi['DiffText']                     = { fg = colors.br_blue, bg = colors.bg_1 }
-	-- hi['DiffTextAdd']                  = { fg = colors.br_green, bg = colors.bg_1 }
-                    -- DiffText = {bg = "#ff9900"}
-                }
-             })
-         end,
-  },
-
-  --[[
-	{ -- You can easily change to a different colorscheme.
-		-- Change the name of the colorscheme plugin below, and then
-		-- change the command in the config to whatever the name of that colorscheme is.
-		--
-		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-		"folke/tokyonight.nvim",
-		priority = 1000, -- Make sure to load this before all the other start plugins.
-		init = function()
-			-- Load the colorscheme here.
-			-- Like many other themes, this one has different styles, and you could load
-			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-			vim.cmd.colorscheme("tokyonight-night")
-
-			-- You can configure highlights by doing something like:
-			-- vim.cmd.hi 'Comment gui=none'
-		end,
-	},
-  --]]
 
   -- Highlight todo, notes, etc in comments
   {
@@ -1055,7 +1009,6 @@ endif
   "aklt/plantuml-syntax",
   "chrisbra/csv.vim",
   "darfink/vim-plist",
-  "embear/vim-localvimrc",
   "guns/xterm-color-table.vim",
   "hashivim/vim-terraform",
   "kshenoy/vim-signature",
@@ -1063,7 +1016,6 @@ endif
   "tomswartz07/vim-pg-explain-syntax",
   "unblevable/quick-scope",
   "vim-scripts/camelcasemotion",
-  "zimbatm/haproxy.vim",
   {
     "dlyongemallo/diffview-plus.nvim",
     version = "*",
