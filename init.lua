@@ -926,11 +926,54 @@ endif
     lazy = false,
     branch = "main",
     build = ":TSUpdate",
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
     -- main = "nvim-treesitter.configs", -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       auto_install = true,
     },
+    config = function(_, opts)
+      require("nvim-treesitter").setup(opts)
+      require("nvim-treesitter-textobjects").setup({
+        select = { lookahead = true },
+        move = { set_jumps = true },
+      })
+
+      local select = require("nvim-treesitter-textobjects.select")
+      local move   = require("nvim-treesitter-textobjects.move")
+      local swap   = require("nvim-treesitter-textobjects.swap")
+
+      -- select
+      local sel_maps = {
+        ["af"] = "@function.outer", ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",    ["ic"] = "@class.inner",
+        ["aa"] = "@parameter.outer", ["ia"] = "@parameter.inner",
+      }
+      for lhs, query in pairs(sel_maps) do
+        vim.keymap.set({ "x", "o" }, lhs, function()
+          select.select_textobject(query, "textobjects")
+        end, { desc = "TS: " .. query })
+      end
+
+      -- move
+      local function mk(fn, queries)
+        return function() fn(queries, "textobjects") end
+      end
+      vim.keymap.set("n", "]m",  mk(move.goto_next_start,    "@function.outer"), { desc = "Next function start" })
+      vim.keymap.set("n", "]]",  mk(move.goto_next_start,    "@class.outer"),    { desc = "Next class start" })
+      vim.keymap.set("n", "]a",  mk(move.goto_next_start,    "@parameter.inner"),{ desc = "Next parameter" })
+      vim.keymap.set("n", "]M",  mk(move.goto_next_end,      "@function.outer"), { desc = "Next function end" })
+      vim.keymap.set("n", "][",  mk(move.goto_next_end,      "@class.outer"),    { desc = "Next class end" })
+      vim.keymap.set("n", "[m",  mk(move.goto_previous_start,"@function.outer"), { desc = "Prev function start" })
+      vim.keymap.set("n", "[[",  mk(move.goto_previous_start,"@class.outer"),    { desc = "Prev class start" })
+      vim.keymap.set("n", "[a",  mk(move.goto_previous_start,"@parameter.inner"),{ desc = "Prev parameter" })
+      vim.keymap.set("n", "[M",  mk(move.goto_previous_end,  "@function.outer"), { desc = "Prev function end" })
+      vim.keymap.set("n", "[]",  mk(move.goto_previous_end,  "@class.outer"),    { desc = "Prev class end" })
+
+      -- swap
+      vim.keymap.set("n", "<leader>xp", function() swap.swap_next("@parameter.inner",    "textobjects") end, { desc = "Swap next parameter" })
+      vim.keymap.set("n", "<leader>xP", function() swap.swap_previous("@parameter.inner","textobjects") end, { desc = "Swap prev parameter" })
+    end,
     init = function()
       local ensureInstalled = {
         'awk', 'bash', 'c', 'comment', 'cpp', 'css', 'csv', 'diff', 'dockerfile', 'dot',
@@ -1053,9 +1096,9 @@ set grepprg=internal
     "ray-x/go.nvim",
     branch = "master",
     dependencies = { -- optional packages
-      -- "ray-x/guihua.lua",
+      "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
+      -- "nvim-treesitter/nvim-treesitter",
     },
     config = function()
       require("go").setup({
