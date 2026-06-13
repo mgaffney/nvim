@@ -540,9 +540,45 @@ endif
       end, { desc = "[S]earch [/] in Open Files" })
 
       -- Shortcut for searching your Neovim configuration files
-      vim.keymap.set("n", "<leader>sn", function()
+      vim.keymap.set("n", "<leader>sN", function()
         builtin.find_files({ cwd = vim.fn.stdpath("config") })
       end, { desc = "[S]earch [N]eovim files" })
+
+      -- Per-repo notes search (notes/ symlinks into the Obsidian vault).
+      local function notes_dir()
+        local d = vim.fn.getcwd() .. "/notes"
+        if vim.fn.isdirectory(d) == 0 then
+          vim.notify("No notes/ symlink in this repo", vim.log.levels.WARN)
+          return nil
+        end
+        return d
+      end
+
+      vim.keymap.set("n", "<leader>sn", function() -- grep this repo's notes
+        local d = notes_dir()
+        if not d then
+          return
+        end
+        builtin.live_grep({
+          cwd = d,
+          prompt_title = "Grep notes",
+          additional_args = { "--follow", "--no-ignore" },
+        })
+      end, { desc = "[S]earch [N]otes (grep)" })
+
+      vim.keymap.set("n", "<leader>fn", function() -- find this repo's note files
+        local d = notes_dir()
+        if not d then
+          return
+        end
+        builtin.find_files({
+          cwd = d,
+          prompt_title = "Find notes",
+          follow = true,
+          no_ignore = true,
+          hidden = true,
+        })
+      end, { desc = "[F]ind [N]otes" })
     end,
   },
   -- LSP Plugins
