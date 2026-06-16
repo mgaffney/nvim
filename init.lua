@@ -1017,7 +1017,7 @@ endif
         'gitignore', 'gnuplot', 'go', 'goctl', 'godot_resource', 'gomod', 'gosum', 'gotmpl', 'gowork', 'hcl',
         'html', 'http', 'idl', 'ini', 'java', 'javadoc', 'javascript', 'jq', 'jsdoc', 'json',
         'json5', 'lua', 'luadoc', 'make', 'markdown', 'markdown_inline', 'mermaid', 'passwd', 'pem',
-        'perl', 'printf', 'properties', 'proto', 'query', 'readline', 'regex', 'requirements', 'rst', 'ruby',
+        'perl', 'printf', 'properties', 'proto', 'python', 'query', 'readline', 'regex', 'requirements', 'rst', 'ruby',
         'rust', 'scala', 'scheme', 'scss', 'slang', 'soql', 'sparql', 'sql', 'squirrel', 'ssh_config',
         'strace', 'styled', 'swift', 'tablegen', 'tcl', 'teal', 'templ', 'terraform', 'textproto', 'thrift',
         'tiger', 'tmux', 'todotxt', 'toml', 'tsv', 'twig', 'typescript', 'typespec', 'typoscript', 'typst',
@@ -1031,6 +1031,12 @@ endif
           end)
           :totable()
       require('nvim-treesitter').install(parsersToInstall)
+      -- Map fenced-code-block language aliases to installed parsers so
+      -- treesitter injection highlights them (replaces the regex-syntax
+      -- g:markdown_fenced_languages, which vim.treesitter.start disables):
+      --   ```protobuf -> proto, ```zsh -> bash
+      vim.treesitter.language.register('proto', 'protobuf')
+      vim.treesitter.language.register('bash', 'zsh')
       vim.api.nvim_create_autocmd('FileType', {
         callback = function()
           -- Enable treesitter highlighting and disable regex syntax
