@@ -1,7 +1,4 @@
-setlocal wrap
-setlocal linebreak
-setlocal nolist    " list disables linebreak
-setlocal breakindent
+setlocal nowrap
 
 setlocal tabstop=4
 setlocal shiftwidth=4
