@@ -690,12 +690,15 @@ endif
           -- map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
           -- Find callers for the word under your cursor.
-          map("grc", function()
-              require("telescope.builtin").lsp_incoming_calls(
-                { fname_width = 70 }
-              )
-            end,
-            "[G]oto [C]allers")
+          -- map("grc", function()
+          --     require("telescope.builtin").lsp_incoming_calls(
+          --       { fname_width = 30 }
+          --     )
+          --   end,
+          --   "[r]eveal [c]allers")
+
+          map('grc', vim.lsp.buf.incoming_calls, '[r]eveal [c]allers')
+          map('grC', vim.lsp.buf.outgoing_calls, '[r]eveal [C]allees')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
