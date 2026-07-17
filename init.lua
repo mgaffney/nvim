@@ -1137,6 +1137,7 @@ set grepprg=internal
 ]])
     end,
   },
+
   {
     "ray-x/go.nvim",
     branch = "master",
@@ -1149,11 +1150,40 @@ set grepprg=internal
       require("go").setup({
         lsp_inlay_hints = { enable = false }, -- off by default; <leader>th toggles them
       })
+      local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = "*.go",
+        group = format_sync_grp,
+        callback = function()
+          local bufnr = vim.api.nvim_get_current_buf()
+          -- 1. Organize imports synchronously (adds missing, removes unused)
+          --    via gopls's source.organizeImports code action. Use each
+          --    client's own offset_encoding rather than a hardcoded value.
+          for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr, name = "gopls" })) do
+            local range = vim.lsp.util.make_range_params(0, client.offset_encoding)
+            local params = {
+              textDocument = range.textDocument,
+              range = range.range,
+              context = { only = { "source.organizeImports" }, diagnostics = {} },
+            }
+            local result = client:request_sync("textDocument/codeAction", params, 1000, bufnr)
+            for _, action in pairs((result or {}).result or {}) do
+              if action.edit then
+                vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+              end
+            end
+          end
+          -- 2. Format with gopls (gofumpt = true) synchronously.
+          --    Runs before the write completes, so a single :w suffices.
+          vim.lsp.buf.format({ async = false, name = "gopls" })
+        end,
+      })
     end,
     event = { "CmdlineEnter" },
     ft = { "go", "gomod" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
+
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
@@ -1215,15 +1245,6 @@ set grepprg=internal
       lazy = "💤 ",
     },
   },
-})
-
-local format_sync_grp = vim.api.nvim_create_augroup("goimports", {})
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
-  callback = function()
-    require('go.format').goimports()
-  end,
-  group = format_sync_grp,
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
