@@ -138,6 +138,14 @@ vim.opt.completeopt = 'menu,menuone,noselect'
 
 --  See `:help vim.keymap.set()`
 
+-- Accept the highlighted completion popup entry with Tab/Enter
+vim.keymap.set('i', '<Tab>', function()
+  return vim.fn.pumvisible() == 1 and '<C-y>' or '<Tab>'
+end, { expr = true })
+vim.keymap.set('i', '<CR>', function()
+  return vim.fn.pumvisible() == 1 and '<C-y>' or '<CR>'
+end, { expr = true })
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set("n", "<leader>/", "<cmd>nohlsearch<CR>", { silent = true, desc = "Clear [H]ighlights" })
