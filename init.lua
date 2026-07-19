@@ -351,6 +351,7 @@ require("lazy").setup({
     keys = {
       { "yga", "<Plug>(EasyAlign)", silent = true, desc = "Align [a]round" },
       { "ga",  "<Plug>(EasyAlign)", mode = "x",    silent = true,          desc = "Align [a]round" },
+      { "<leader>a,", "vapga*,", remap = true, silent = true, desc = "Align paragraph on comma" },
     },
   },
   "mbbill/undotree",
