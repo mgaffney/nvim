@@ -165,6 +165,23 @@ vim.keymap.set('i', '<leader>uid', function()
   vim.api.nvim_put({ uuid }, 'c', true, true)
 end)
 
+-- Load the current PR's changed files into the quickfix list
+vim.api.nvim_create_user_command("PrFiles", function()
+  vim.system({ "gh", "pr", "diff", "--name-only" }, { text = true }, function(obj)
+    if obj.code ~= 0 then
+      vim.schedule(function()
+        vim.notify("PrFiles: " .. obj.stderr, vim.log.levels.ERROR)
+      end)
+      return
+    end
+    local files = vim.split(obj.stdout, "\n", { trimempty = true })
+    vim.schedule(function()
+      vim.fn.setqflist(vim.tbl_map(function(f) return { filename = f } end, files), "r")
+      vim.cmd.copen()
+    end)
+  end)
+end, { desc = "Load PR changed files into quickfix" })
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 -- TIP: Disable arrow keys in normal mode
