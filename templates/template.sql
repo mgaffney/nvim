@@ -1,5 +1,4 @@
--- Copyright (c) HashiCorp, Inc.
--- SPDX-License-Identifier: BUSL-1.1
+-- Copyright IBM Corp. 2020, 2026
 
 begin;
 
