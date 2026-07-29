@@ -21,6 +21,7 @@ return {
 	---@type neotree.Config?
 	opts = {
 		filesystem = {
+			bind_to_cwd = false,
 			window = {
 				mappings = {
 					['\\'] = 'close_window',
