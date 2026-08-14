@@ -165,6 +165,12 @@ vim.keymap.set('i', '<leader>uid', function()
   vim.api.nvim_put({ uuid }, 'c', true, true)
 end)
 
+-- hyphen (-): compound words, e.g. "well-known"
+-- en dash (–): ranges, e.g. "pages 10–20"; connects compound modifiers, e.g. "New York–London flight"
+-- em dash (—): parenthetical or interruptive breaks, e.g. "the result — surprisingly — was correct"
+vim.keymap.set('i', '<leader>-', '–', { desc = "Insert en dash" })
+vim.keymap.set('i', '<leader>_', '—', { desc = "Insert em dash (shift dash key)" })
+
 -- Load the current PR's changed files into the quickfix list
 vim.api.nvim_create_user_command("PrFiles", function()
   vim.system({ "gh", "pr", "diff", "--name-only" }, { text = true }, function(obj)
