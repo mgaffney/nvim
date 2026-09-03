@@ -368,7 +368,7 @@ require("lazy").setup({
   "junegunn/gv.vim",
   "junegunn/goyo.vim",
   "junegunn/limelight.vim",
-  -- "github/copilot.vim",
+  "github/copilot.vim",
   {
     "junegunn/vim-easy-align",
     keys = {
