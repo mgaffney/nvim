@@ -1066,6 +1066,9 @@ endif
           "diff",
           "diagnostics",
         },
+        lualine_c = {
+          { "filename", path = 1 },
+        },
         lualine_x = {
           function()
             return vim.fn.ObsessionStatus("\u{f130}", "")
