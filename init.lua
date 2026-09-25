@@ -43,6 +43,12 @@ require("lazy").setup({
 
 -- vim.cmd.colorscheme("selenized")
 
+vim.treesitter.query.set('go', 'injections', [[
+  ((raw_string_literal
+    (raw_string_literal_content) @injection.content)
+    (#set! injection.language "sql"))
+]])
+
 vim.g.have_nerd_font = true
 
 vim.opt.number = true
@@ -857,7 +863,7 @@ endif
               completeUnimported = true,
               staticcheck = true,
               directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-              semanticTokens = true,
+              semanticTokens = false,
             },
           },
         },
