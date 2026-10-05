@@ -1057,35 +1057,6 @@ endif
   --     }
   --   end,
   -- },
-  { -- Statusline (uses the selenized theme shipped in selenized.nvim)
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      options = {
-        theme = "selenized",
-        section_separators = { left = "\u{e0b0}", right = "\u{e0b2}" },
-        component_separators = { left = "\u{e0b1}", right = "\u{e0b3}" },
-      },
-      sections = {
-        lualine_b = {
-          { "branch", icon = "\u{e0a0}" },
-          "diff",
-          "diagnostics",
-        },
-        lualine_c = {
-          { "filename", path = 1 },
-        },
-        lualine_x = {
-          function()
-            return vim.fn.ObsessionStatus("\u{f130}", "")
-          end,
-          "encoding",
-          "fileformat",
-          "filetype",
-        },
-      },
-    },
-  },
   "aklt/plantuml-syntax",
   "chrisbra/csv.vim",
   "darfink/vim-plist",
@@ -1175,7 +1146,86 @@ set grepprg=internal
     ft = { "go", "gomod" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      bigfile = { enabled = false },
+      dashboard = { enabled = false },
+      explorer = { enabled = false },
+      indent = { enabled = false },
+      input = { enabled = true },
+      picker = { enabled = true },
+      notifier = { enabled = false },
+      quickfile = { enabled = false },
+      scope = { enabled = false },
+      scroll = { enabled = false },
+      statuscolumn = { enabled = false },
+      words = { enabled = false },
+    },
+  },
+  {
+    "nickjvandyke/opencode.nvim",
+    -- Defaults to "main", supporting OpenCode v2.
+    -- Uncomment to pull the latest stable release, supporting OpenCode v1.
+    -- version = "*",
+    config = function()
+      ---@type opencode.Opts
+      vim.g.opencode_opts = {
+        -- Your configuration, if any; goto definition on the type for details
+      }
 
+      -- Recommended/example keymaps
+      vim.keymap.set({ "n", "x" }, "<C-a>",   function() require("opencode").ask("@this: ") end,                    { desc = "Ask OpenCode…" })
+      vim.keymap.set({ "n", "x" }, "<C-x>",   function() require("opencode").select() end,                          { desc = "Select OpenCode…" })
+      vim.keymap.set({ "n", "x" }, "go",      function() return require("opencode").operator("@this") end,         { desc = "Send range to OpenCode", expr = true })
+      vim.keymap.set({ "n" },      "goo",     function() return require("opencode").operator("@this") .. "_" end,  { desc = "Send line to OpenCode", expr = true })
+    end,
+  },
+  { -- Statusline (uses the selenized theme shipped in selenized.nvim)
+    "nvim-lualine/lualine.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      options = {
+        theme = "selenized",
+        section_separators = { left = "\u{e0b0}", right = "\u{e0b2}" },
+        component_separators = { left = "\u{e0b1}", right = "\u{e0b3}" },
+      },
+      sections = {
+        lualine_b = {
+          { "branch", icon = "\u{e0a0}" },
+          "diff",
+          "diagnostics",
+        },
+        lualine_c = {
+          { "filename", path = 1 },
+        },
+        lualine_x = {
+          function()
+            return vim.fn.ObsessionStatus("\u{f130}", "")
+          end,
+          "encoding",
+          "fileformat",
+          "filetype",
+        },
+        lualine_z = {
+          {
+            -- Show the currently connected server and its status
+          function()
+            return require("opencode").statusline()
+          end,
+          },
+        },
+      },
+    },
+  },
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
   -- place them in the correct locations.
