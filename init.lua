@@ -1029,7 +1029,7 @@ endif
         'perl', 'printf', 'properties', 'proto', 'python', 'query', 'readline', 'regex', 'requirements', 'rst', 'ruby',
         'rust', 'scala', 'scheme', 'scss', 'slang', 'soql', 'sparql', 'sql', 'squirrel', 'ssh_config',
         'strace', 'styled', 'swift', 'tablegen', 'tcl', 'teal', 'templ', 'terraform', 'textproto', 'thrift',
-        'tiger', 'tmux', 'todotxt', 'toml', 'tsv', 'twig', 'typescript', 'typespec', 'typoscript', 'typst',
+        'tiger', 'todotxt', 'toml', 'tsv', 'twig', 'typescript', 'typespec', 'typoscript', 'typst',
         'udev', 'ungrammar', 'usd', 'vhdl', 'vim', 'vimdoc', 'vue', 'xml', 'xresources', 'yaml',
         'zig', 'ziggy', 'ziggy_schema',
       }
