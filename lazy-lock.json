@@ -3,6 +3,7 @@
   "catppuccin": { "branch": "main", "commit": "edefef779ab08ce1a4a404713e3012b0d202bd35" },
   "copilot.vim": { "branch": "release", "commit": "a12fd5672110c8aa7e3c8419e28c96943ca179be" },
   "csv.vim": { "branch": "master", "commit": "375c1a81a4f186ce8949824f3b87ddc6727a63af" },
+  "diffchar.vim": { "branch": "master", "commit": "a5bec389a88184fcf4a4c0cbf9fd5d3318a9c5ab" },
   "diffview-plus.nvim": { "branch": "main", "commit": "2a2d89a07f5d5d3cef7f542b99c3e28050ca205c" },
   "fidget.nvim": { "branch": "main", "commit": "9e0201673e08e997e7cf52afca5565c70bd117f3" },
   "gitsigns.nvim": { "branch": "main", "commit": "fd780920613e541cbdfac41bf711583ed49f9249" },
